@@ -1,6 +1,37 @@
-# img2img-turbo
+# img2img-turbo (CycleGan-Turbo | Style transfer)
+1. **Create a Virtual Environment**:
+   
+   First, create  and activate a virtual environment using `venv`:
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+
+2. **Install the Required Dependencies**:
+
+   With the virtual environment activated, install the necessary dependencies using the `requirements.txt` file:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   This will install all the required packages to run the scripts.
+
+3. **Prepare your data**:
+
+   With the virtual environment activated, install the necessary dependencies using the `requirements.txt` file:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   This will install all the required packages to run the scripts.
 
 
+
+
+**General info about the style transfer**:
 [**Paper**](https://arxiv.org/abs/2403.12036) | [**Sketch2Image Demo**](https://huggingface.co/spaces/gparmar/img2img-turbo-sketch) 
 #### **Quick start:** [**Running Locally**](#getting-started) | [**Gradio (locally hosted)**](#gradio-demo) | [**Training**](#training-with-your-own-data)
 
