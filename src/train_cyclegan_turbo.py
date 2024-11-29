@@ -23,7 +23,7 @@ from my_utils.dino_struct import DinoStructureLoss
 
 
 def main(args):
-    accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps, log_with=args.report_to)
+    accelerator = Accelerator(gradient_accumulation_steps=args.gradient_accumulation_steps, log_with=None if args.no_logging else args.report_to)
     set_seed(args.seed)
 
     if accelerator.is_main_process:
@@ -74,7 +74,7 @@ def main(args):
         weight_decay=args.adam_weight_decay, eps=args.adam_epsilon,)
 
     dataset_train = UnpairedDataset(dataset_folder=args.dataset_folder, image_prep=args.train_img_prep, split="train", tokenizer=tokenizer)
-    train_dataloader = torch.utils.data.DataLoader(dataset_train, batch_size=args.train_batch_size, shuffle=True, num_workers=args.dataloader_num_workers)
+    train_dataloader = torch.utils.data.DataLoader(dataset_train, batch_size=args.train_batch_size, shuffle=True, num_workers=2)
     T_val = build_transform(args.val_img_prep)
     fixed_caption_src = dataset_train.fixed_caption_src
     fixed_caption_tgt = dataset_train.fixed_caption_tgt
@@ -308,7 +308,12 @@ def main(args):
                         torch.cuda.empty_cache()
 
                     # compute val FID and DINO-Struct scores
-                    if global_step % args.validation_steps == 1:
+                    # List of specific steps where validation should occur
+                    validation_steps = {14501, 25001}
+
+                    # compute val FID and DINO-Struct scores
+                    if global_step == args.max_train_steps or global_step == args.validation_steps:
+                    # if global_step % args.validation_steps == 1:
                         _timesteps = torch.tensor([noise_scheduler_1step.config.num_train_timesteps - 1] * 1, device="cuda").long()
                         net_dino = DinoStructureLoss()
                         """

@@ -169,3 +169,5 @@ outputs/bird.png
 data
 wandb
 output/
+outputs/
+*_env/

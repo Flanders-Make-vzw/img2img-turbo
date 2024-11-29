@@ -89,6 +89,7 @@ def parse_args_paired_training(input_args=None):
             ' (default), `"wandb"` and `"comet_ml"`. Use `"all"` to report to all integrations.'
         ),
     )
+    parser.add_argument("--no-logging", action='store_true', help='Disable logging')
     parser.add_argument("--mixed_precision", type=str, default=None, choices=["no", "fp16", "bf16"],)
     parser.add_argument("--enable_xformers_memory_efficient_attention", action="store_true", help="Whether or not to use xformers.")
     parser.add_argument("--set_grads_to_none", action="store_true",)
@@ -144,6 +145,7 @@ def parse_args_unpaired_training():
     parser.add_argument("--viz_freq", type=int, default=20)
     parser.add_argument("--output_dir", type=str, required=True)
     parser.add_argument("--report_to", type=str, default="wandb")
+    parser.add_argument("--no-logging", action='store_true', help='Disable logging')
     parser.add_argument("--tracker_project_name", type=str, required=True)
     parser.add_argument("--validation_steps", type=int, default=500,)
     parser.add_argument("--validation_num_images", type=int, default=-1, help="Number of images to use for validation. -1 to use all images.")
