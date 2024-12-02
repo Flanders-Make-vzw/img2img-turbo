@@ -1,7 +1,7 @@
 # img2img-turbo (CycleGan-Turbo | Style transfer)
 1. **Create a Virtual Environment**:
    
-   First, create and activate a virtual environment for the training and one for the inference using `venv`:
+   First, create and activate a separate virtual environment for the training and inference using `venv`:
    
    Training:
    ```bash
