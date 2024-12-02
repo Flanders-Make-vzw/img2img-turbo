@@ -1,24 +1,36 @@
 # img2img-turbo (CycleGan-Turbo | Style transfer)
 1. **Create a Virtual Environment**:
    
-   First, create  and activate a virtual environment using `venv`:
-
+   First, create and activate a virtual environment for the training and one for the inference using `venv`:
+   
+   Training:
    ```bash
-   python -m venv venv
-   source venv/bin/activate
+   python -m venv train_venv
+   source train_venv/bin/activate
+   ```
+   Inference:
+   ```bash
+   python -m venv inference_venv
+   source inference_venv/bin/activate
    ```
 
 2. **Install the Required Dependencies**:
 
-   With the virtual environment activated, install the necessary dependencies using the `requirements.txt` file:
+   With the correct virtual environment activated, install the necessary dependencies using the requirements file:
 
+   With train_venv activated:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements_train.txt
    ```
+   With inference_venv activated:
+   ```bash
+   pip install -r requirements_inference.txt
+   ```
+   
 
    This will install all the required packages to run the scripts.
 
-3. **Prepare your data**:
+4. **Prepare your data**:
 
    Make a data/ folder in the root. Add a new folder for your case e.g. weeds/ in this folder you place one folder with your synthetic images (named 'synthetic') and one with the real images (named 'real'). 
    Then simply run the script below to start the patching and training.
