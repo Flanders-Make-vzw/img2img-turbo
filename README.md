@@ -32,9 +32,8 @@
 
 4. **Prepare your data**:
 
-   Make a data/ folder in the root. Add a new folder for your case e.g. weeds/ in this folder you place one folder with your synthetic images (named 'synthetic') and one with the real images (named 'real'). 
-   Then simply run the script below to start the patching and training.
-
+   Make a `data/` folder in the root. Add a new folder for your case e.g. `weeds/`. Place your synthetic images here in a folder named 'synthetic' and your real images in a folder named 'real'. 
+   Then run the script below to start the patching and training. You will be asked some prompts to answer (in general I train for 25 000 epochs). 
 
    ```bash
    prepare_and_train_cyclegan.sh
@@ -42,17 +41,16 @@
 
 3. **Run inference**:
 
-   After training has completed (takes about a day), run the inference script (see command below) on the original resolution images folder (will now be named 'train_A_original'). 
-   If the image has a high resolution and you do not have a good GPU you can run it on the patched folder ('train_A') instead and then run the 'inference_and_repatch.sh' script. 
+   After training has completed (takes about a day depending on your GPU), run the inference script (see command below) on the original resolution images folder (will now be named 'train_A_original'). 
+   If the image has a high resolution and you do not have a good GPU you can run it on the patched folder ('train_A') instead and then run the `inference_and_repatch.sh` script. 
+   The repatching also applies blending to reduce the visibility of the separate patches but their will still be some artifacts because each patch is augmented separately. 
+   So in general I would recommend to do the inference on the original resolution images. 
 
    ```bash
    inference.sh
    ```
 
 The results will be in outputs/*your folder name*
-
-
-
 
 
 
