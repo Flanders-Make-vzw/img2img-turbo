@@ -20,14 +20,24 @@
 
 3. **Prepare your data**:
 
-   With the virtual environment activated, install the necessary dependencies using the `requirements.txt` file:
+   Make a data/ folder in the root. Add a new folder for your case e.g. weeds/ in this folder you place one folder with your synthetic images (named 'synthetic') and one with the real images (named 'real'). 
+   Then simply run the script below to start the patching and training.
+
 
    ```bash
-   pip install -r requirements.txt
+   prepare_and_train_cyclegan.sh
    ```
 
-   This will install all the required packages to run the scripts.
+3. **Run inference**:
 
+   After training has completed (takes about a day), run the inference script (see command below) on the original resolution images folder (will now be named 'train_A_original'). 
+   If the image has a high resolution and you do not have a good GPU you can run it on the patched folder ('train_A') instead and then run the 'inference_and_repatch.sh' script. 
+
+   ```bash
+   inference.sh
+   ```
+
+The results will be in outputs/*your folder name*
 
 
 
