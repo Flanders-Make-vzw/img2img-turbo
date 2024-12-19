@@ -1,5 +1,97 @@
-# img2img-turbo
+# img2img-turbo (CycleGan-Turbo | Style transfer)
+(Tested on Python 3.8.10 | cuda 12.1 | 24GB VRAM - A good GPU is needed to run the training)
 
+1. **Create a virtual environment**:
+   <details>
+      
+   First, create and activate a virtual environment inside the cloned img2img-turbo dir:
+   
+   ```bash
+   python3 -m venv cycle_venv
+   source cycle_venv/bin/activate
+   ```
+   </details>
+2. **Install rust/cargo and networkx into your cycle_venv**:
+   <details>
+      
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   export PATH="$HOME/.cargo/bin:$PATH"
+   source ~/.bashrc
+   echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> cycle_venv/bin/activate
+   source cycle_venv/bin/activate
+   pip install networkx
+   ```
+   Verify that rust/cargo is installed:
+   
+   ```bash
+   rustc --version
+   cargo --version
+   ```
+   </details>
+   
+3. **Install the correct torch version for your cuda**:
+   <details>
+   
+   Change the last part ("cu121") depending on your system cuda version (I use cuda 12.1)
+   ```bash
+   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121    
+   ```
+   </details>
+   
+4. **Install the required dependencies**:
+   <details>
+      
+   ```bash
+   pip install -r requirements.txt
+   ```
+   This will install all the required packages to run the scripts.
+
+   If not done yet, make sure you are logged into huggingface so the pretrained model can be downloaded automatically:
+   ```bash
+   huggingface-cli login
+   ```
+   Now set up the accelerate configs:
+   ```bash
+   accelerate config
+   ```
+   or if you don't want to choose the setup:
+   ```bash
+   accelerate config default
+   ```
+   You can experiment with using fp16 (mixed precision) for the training which should speed it up, but the script doesn't seem to be optimized to use fp16 so it might slow it down instead.
+
+   </details>
+5. **Prepare your data and train the model**:
+   <details>
+      
+   Make a `data/` folder in the root. Add a new folder for your case e.g. `weeds/`. Place your synthetic images here in a folder named 'synthetic' and your real images in a folder named 'real'. 
+   Then run the script below to start the patching and training. You will be asked some prompts to answer (in general I train for 25 000 epochs). 
+
+   ```bash
+   prepare_and_train_cyclegan.sh
+   ```
+   </details>
+
+6. **Run inference**:
+   <details>
+   
+   After training has completed (takes about a day depending on your GPU), run the inference script (see command below) on the original resolution images folder (will now be named 'train_A_original'). 
+   If the image has a high resolution and you do not have a good GPU you can run it on the patched folder ('train_A') instead and run the `inference_and_repatch.sh` script. 
+   The repatching also applies blending to reduce the visibility of the separate patches but there will still be some artifacts because each patch is augmented separately. 
+   In general I would recommend to do the inference on the original resolution images if your GPU allows it. 
+
+   ```bash
+   inference.sh
+   ```
+
+   The results will be in outputs/*your folder name*
+
+   </details>
+
+# General info about the style transfer and examples:
+<details>
+   
 [**Paper**](https://arxiv.org/abs/2403.12036) | [**Sketch2Image Demo**](https://huggingface.co/spaces/gparmar/img2img-turbo-sketch) 
 #### **Quick start:** [**Running Locally**](#getting-started) | [**Gradio (locally hosted)**](#gradio-demo) | [**Training**](#training-with-your-own-data)
 
@@ -226,3 +318,5 @@ We tightly integrate three separate modules in the original latent diffusion mod
 
 ## Acknowledgment
 Our work uses the Stable Diffusion-Turbo as the base model with the following [LICENSE](https://huggingface.co/stabilityai/sd-turbo/blob/main/LICENSE).
+
+</details>

@@ -34,5 +34,5 @@ fi
 python3 src/inference_unpaired.py --model_path "$model_path" \
     --input_dir "$input_dir" \
     --prompt "$prompt" --direction "$direction" \
-    --output_dir "outputs/$folderName" --image_prep "no_resize"
-
+    --output_dir "outputs/$folderName" --image_prep "no_resize" \
+    --use_fp16

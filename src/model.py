@@ -2,6 +2,8 @@ import os
 import requests
 from tqdm import tqdm
 from diffusers import DDPMScheduler
+import torch.nn.functional as F
+
 
 
 def make_1step_sched():
@@ -27,6 +29,7 @@ def my_vae_encoder_fwd(self, sample):
     return sample
 
 
+
 def my_vae_decoder_fwd(self, sample, latent_embeds=None):
     sample = self.conv_in(sample)
     upscale_dtype = next(iter(self.up_blocks.parameters())).dtype
@@ -38,7 +41,11 @@ def my_vae_decoder_fwd(self, sample, latent_embeds=None):
         # up
         for idx, up_block in enumerate(self.up_blocks):
             skip_in = skip_convs[idx](self.incoming_skip_acts[::-1][idx] * self.gamma)
-            # add skip
+            # add skip with padding if dimensions do not match
+            if skip_in.shape != sample.shape:
+                diff_h = sample.shape[2] - skip_in.shape[2]
+                diff_w = sample.shape[3] - skip_in.shape[3]
+                skip_in = F.pad(skip_in, (0, diff_w, 0, diff_h))
             sample = sample + skip_in
             sample = up_block(sample, latent_embeds)
     else:

@@ -26,7 +26,7 @@ read -p "Do you want to use the last model checkpoint? (y/n): " use_last_checkpo
 if [ "$use_last_checkpoint" == "y" ] || [ "$use_last_checkpoint" == "yes" ]; then
     model_path="output/cyclegan_turbo/$folderName/checkpoints/model_25001.pkl"
 else
-    read -p "Enter the model number you want to use (e.g.: 00007): " model_number
+    read -p "Enter the checkpoint number you want to use (e.g.: 00007): " model_number
     model_path="output/cyclegan_turbo/$folderName/checkpoints/model_${model_number}.pkl"
 fi
 
@@ -34,7 +34,8 @@ fi
 python3 src/inference_unpaired.py --model_path "$model_path" \
     --input_dir "$input_dir" \
     --prompt "$prompt" --direction "$direction" \
-    --output_dir "outputs/$folderName" --image_prep "no_resize"
+    --output_dir "outputs/$folderName" --image_prep "no_resize" \
+    --use_fp16
 
 # Run the repatch.py script with the required inputs
 python3 ./repatch.py --direction "$direction" --folderName "$folderName"
