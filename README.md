@@ -1,6 +1,8 @@
 # img2img-turbo (CycleGan-Turbo | Style transfer)
 (Tested on Python 3.8.10 | cuda 12.1 | 24GB VRAM - A good GPU is needed to run the training)
 
+This repository implements CycleGAN-Turbo for unpaired image-to-image translation. It enables transforming images between a source and target domain while maintaining important features and spatial consistency. This approach is useful for tasks like style transfer/domain adaptation (e.g.: transforming synthetic images to look more realistic).
+
 1. **Create a virtual environment**:
    <details>
       
