@@ -24,11 +24,16 @@ read -p "Do you want to use the last model checkpoint? (y/n): " use_last_checkpo
 
 # Set the model path based on user input
 if [ "$use_last_checkpoint" == "y" ] || [ "$use_last_checkpoint" == "yes" ]; then
-    model_path="output/cyclegan_turbo/$folderName/checkpoints/model_25001.pkl"
+    # Find the last model checkpoint in the directory
+    model_path=$(ls -t output/cyclegan_turbo/$folderName/checkpoints/model_*.pkl | head -1)
+    model_number=$(basename "$model_path" | grep -oP '(?<=model_)\d+(?=\.pkl)')
 else
-    read -p "Enter the checkpoint number you want to use (e.g.: 00007): " model_number
+    read -p "Enter the model number you want to use (e.g.: 00007): " model_number
     model_path="output/cyclegan_turbo/$folderName/checkpoints/model_${model_number}.pkl"
 fi
+
+# Print the chosen model path
+echo "Using model: $model_number"
 
 # Run the Python script with the specified arguments
 python3 src/inference_unpaired.py --model_path "$model_path" \
