@@ -22,7 +22,7 @@ dominate
 diffusers==0.25.1
 gradio==3.43.1
 vision_aided_loss
-transformers==4.35.2
+transformers==4.48.0
 networkx==3.1
 tokenizers==0.15.2
 wheel
